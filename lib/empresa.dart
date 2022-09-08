@@ -10,9 +10,9 @@ class Empresa extends PessoaJuridica {
   Map<String, Object> infos = {};
 
   Empresa({
-    required super.razaoSocial,
+    required super.nome,
     required super.nomeFantasia,
-    required super.cnpj,
+    required super.numeroCadastro,
     required super.logradouro,
     required super.numero,
     required super.complemento,
@@ -28,7 +28,18 @@ class Empresa extends PessoaJuridica {
 
   String get id => _id;
 
-  String get endereco {
-    return '${super.logradouro}, ${super.numero}, ${super.bairro}, ${super.cidade}/${super.estado}, ${super.cep}';
+  String get conteudo {
+    return '''
+    ID: $id
+    CNPJ: $cnpj
+    Razão Social: $razaoSocial
+    Nome Fantasia: $nomeFantasia
+    Telefone: $telefone
+    Endereço: $endereco
+    Sócio: ${socio.tipo}
+    CPF/CNPJ: ${socio.numeroCadastro}
+    Nome/Razão Social: ${socio.nome}
+    Endereço: ${socio.endereco}
+    ''';
   }
 }

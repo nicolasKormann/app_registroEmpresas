@@ -1,18 +1,21 @@
 import 'package:desafio_final/pessoa.dart';
 
 class PessoaFisica extends Pessoa {
-  final String nome;
-  final int cpf;
+
+  @override
+  final String tipo = 'Pessoa Física';
 
   PessoaFisica({
-    required this.nome,
-    required this.cpf,
+    required super.nome,
+    required super.numeroCadastro,
     required super.logradouro,
     required super.numero,
-    required super.complemento,
+    super.complemento,
     required super.bairro,
     required super.cidade,
     required super.estado,
     required super.cep,
   });
+
+  int get cpf => super.numeroCadastro;
 }

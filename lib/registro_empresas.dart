@@ -4,18 +4,16 @@ import 'package:desafio_final/pessoa_fisica.dart';
 import 'package:desafio_final/pessoa_juridica.dart';
 
 class RegistroEmpresas {
-  List<Map<String, Object>> empresas = [];
+  List<Empresa> empresas = [];
 
   void executar() {
     print(
         'Bem vindo ao Sistema de registro de empresas! Para continuar escolha uma das opções abaixo:');
-    print(
-        '\n 1. Cadastrar uma nova empresa;\n 2.Buscar Empresa cadastrada por CNPJ;\n 3.Buscar Empresa por CPF do Sócio; \n 4.Listar Empresas cadastradas em ordem alfabética (baseado na Razão Social);\n 5.Excluir uma empresa (por ID);\n 6.Sair.');
 
     int escolha = 0;
     do {
       print(
-          '\n 1. Cadastrar uma nova empresa;\n 2.Buscar Empresa cadastrada por CNPJ;\n 3.Buscar Empresa por CPF do Sócio; \n 4.Listar Empresas cadastradas em ordem alfabética (baseado na Razão Social);\n 5.Excluir uma empresa (por ID);\n 6.Sair.');
+          '\n 1. Cadastrar uma nova empresa;\n 2. Buscar Empresa cadastrada por CNPJ;\n 3. Buscar Empresa por CPF do Sócio; \n 4. Listar Empresas cadastradas em ordem alfabética (baseado na Razão Social);\n 5. Excluir uma empresa (por ID);\n 6. Sair.');
 
       escolha = _escolhaTrataErro();
 
@@ -26,11 +24,16 @@ class RegistroEmpresas {
         case 2:
           _buscar();
           break;
+        case 3:
+          _buscarSocio();
+          break;
+        case 4:
+          _empresasCadastradas();
+          break;
 
         default:
       }
     } while (escolha != 6);
-
   }
 
   //Trata erro escolha
@@ -94,12 +97,12 @@ class RegistroEmpresas {
   }
 
   //VeririficaCNPJ
-  int _verificaCNPJ() {
+  int _verificaCadastro() {
     var cnpj = int.tryParse(stdin.readLineSync()!);
 
     while (cnpj == null) {
       print(
-          'Valor inválido. Por favor, informe o número do CNPJ corretamente (apenas números)');
+          'Valor inválido. Por favor, informe o número do CNPJ/CPF corretamente (apenas números)');
 
       cnpj = int.tryParse(stdin.readLineSync()!);
     }
@@ -136,6 +139,10 @@ class RegistroEmpresas {
     //Bairro
     stdout.write('Por favor, informe o bairro: ');
     String bairro = _stringTrataErro();
+
+    //Cidade
+    stdout.write('Por favor, informe a cidade: ');
+    String cidade = _stringTrataErro();
 
     //estado
     stdout.write('Por favor, informe o estado: ');
@@ -180,6 +187,10 @@ class RegistroEmpresas {
         stdout.write('Por favor, informe o bairro: ');
         String bairroPF = _stringTrataErro();
 
+        //Cidade
+        stdout.write('Por favor, informe a cidade: ');
+        String cidade = _stringTrataErro();
+
         //estado
         stdout.write('Por favor, informe o estado: ');
         String estadoPF = _stringTrataErro();
@@ -190,10 +201,11 @@ class RegistroEmpresas {
 
         return PessoaFisica(
           nome: nome,
-          cpf: cpf,
+          numeroCadastro: cpf,
           logradouro: logradouroPF,
           numero: numeroPF,
           complemento: complementoPF,
+          cidade: cidade,
           bairro: bairroPF,
           estado: estadoPF,
           cep: cepPF,
@@ -227,6 +239,10 @@ class RegistroEmpresas {
         stdout.write('Por favor, informe o bairro: ');
         String bairroPJ = _stringTrataErro();
 
+        //Cidade
+        stdout.write('Por favor, informe a cidade: ');
+        String cidadePJ = _stringTrataErro();
+
         //estado
         stdout.write('Por favor, informe o estado: ');
         String estadoPJ = _stringTrataErro();
@@ -236,13 +252,14 @@ class RegistroEmpresas {
         int cepPJ = _intTrataErro();
 
         return PessoaJuridica(
-          razaoSocial: razaoSocialPJ,
+          nome: razaoSocialPJ,
           nomeFantasia: nomeFantasiaPJ,
-          cnpj: cnpjPJ,
+          numeroCadastro: cnpjPJ,
           logradouro: logradouroPJ,
           numero: numeroPJ,
           complemento: complementoPJ,
           bairro: bairroPJ,
+          cidade: cidadePJ,
           estado: estadoPJ,
           cep: cepPJ,
         );
@@ -250,36 +267,59 @@ class RegistroEmpresas {
     }
 
     final empresa = Empresa(
-      razaoSocial: razaoSocial,
+      nome: razaoSocial,
       nomeFantasia: nomeFantasia,
-      cnpj: cnpj,
+      numeroCadastro: cnpj,
       logradouro: logradouro,
       numero: numero,
       complemento: complemento,
       bairro: bairro,
+      cidade: cidade,
       estado: estado,
       cep: cep,
       telefone: telefone,
       socio: socio(),
     );
 
-    empresas.add(
-      {'ID': empresa.id, 'CNPJ': empresa.cnpj, 'Razão Social': empresa.razaoSocial, 'Nome Fantasia': empresa.nomeFantasia, 'Telefone': empresa.telefone, 'Endereço': empresa.endereco},
-    );
+    empresas.add(empresa);
   }
 
-  //2. Busca Empresa
+  //2. Busca Empresa(CNPJ)
   void _buscar() {
     stdout.write(
         'Informe o número do CNPJ da empresa para consulta (somente números): ');
-    int cnpj = _verificaCNPJ();
+    int cnpj = _verificaCadastro();
 
-    var verificaCNPJ = empresas.where((element) => element['CNPJ'] == cnpj);
+    final verificaCNPJ = empresas.where((empresa) => empresa.cnpj == cnpj);
 
     if (verificaCNPJ.toString() == '()') {
       print('CNPJ não encontrado!');
     } else {
-      print('verificaCNPJ');
+      print(verificaCNPJ.elementAt(0).conteudo);
     }
+  }
+
+  //3. Busca Empresa(CNPJ/CPF sócio)
+  void _buscarSocio() {
+    stdout.write(
+        'Informe o número do CNPJ ou do CPF do sócio da empresa (somente números): ');
+    int numeroCadastro = _verificaCadastro();
+
+    final verificaCadastro =
+        empresas.where((empresa) => empresa.numeroCadastro == numeroCadastro);
+
+    if (verificaCadastro.toString() == '()') {
+      print('CNPJ não encontrado!');
+    } else {
+      print(verificaCadastro.elementAt(0).conteudo);
+    }
+  }
+
+  //4. Lista empresas cadastradas
+  _empresasCadastradas() {
+    final listaEmpresas =
+        empresas.map((empresa) => empresa.razaoSocial).toList();
+
+    print(listaEmpresas..sort(((a, b) => a.length.compareTo(b.length))));
   }
 }

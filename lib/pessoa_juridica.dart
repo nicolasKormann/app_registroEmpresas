@@ -1,21 +1,25 @@
 import 'package:desafio_final/pessoa.dart';
 
 class PessoaJuridica extends Pessoa {
-  final String razaoSocial;
   final String nomeFantasia;
-  final int cnpj;
 
+  @override
+  final String tipo = 'Pessoa Jurídica';
 
   PessoaJuridica({
-    required this.razaoSocial,
+    required super.nome,
     required this.nomeFantasia,
-    required this.cnpj,
+    required super.numeroCadastro,
     required super.logradouro,
     required super.numero,
-    required super.complemento,
+    super.complemento,
     required super.bairro,
     required super.cidade,
     required super.estado,
     required super.cep,
   });
+
+  get cnpj => super.numeroCadastro;
+
+  get razaoSocial => super.nome;
 }
