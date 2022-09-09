@@ -30,88 +30,112 @@ class RegistroEmpresas {
         case 4:
           _empresasCadastradas();
           break;
-
-        default:
+        case 5:
+          _excluirEmpresa();
+          break;
       }
     } while (escolha != 6);
   }
 
   //Trata erro escolha
   int _escolhaTrataErro() {
-    var escolha = int.tryParse(stdin.readLineSync()!);
+    int? escolha = int.tryParse(stdin.readLineSync()!);
 
     while (escolha == null) {
       print(
-          'Valor inválido. Por favor escolha um número válido de acordo com o apresentado acima');
+          'Valor inválido. Por favor escolha um número válido de acordo com o apresentado acima (apenas números): ');
 
       escolha = int.tryParse(stdin.readLineSync()!);
     }
-
     return escolha;
   }
 
   //Trata erro escolha(String)
   String _stringTrataErro() {
-    var string = stdin.readLineSync();
+    String? string = stdin.readLineSync();
 
     while (string == null || string == '') {
       stdout.write('Valor inválido. Por favor, informe novamente:');
 
       string = stdin.readLineSync();
     }
-
     return string;
   }
 
   //Trata erro escolha(int)
   int _intTrataErro() {
-    var num = int.tryParse(stdin.readLineSync()!);
+    int? num = int.tryParse(stdin.readLineSync()!);
 
     while (num == null) {
-      print(
-          'Valor inválido. Por favor escolha um número válido de acordo com o apresentado acima');
+      stdout.write(
+          'Valor inválido. Por iforme o número corretamente (apenas número): ');
 
       num = int.tryParse(stdin.readLineSync()!);
     }
 
     return num;
+  }
+
+  //Trata erro telefone
+  String _intTrataTel() {
+    int? num = int.tryParse(stdin.readLineSync()!);
+
+    while (num == null) {
+      print(
+          'Valor inválido. Por iforme o número corretamente (apenas número): ');
+
+      num = int.tryParse(stdin.readLineSync()!);
+    }
+
+    return num.toString();
   }
 
   //Trata erro sócio
   int _intSocio() {
-    var num = int.tryParse(stdin.readLineSync()!);
+    int? num = int.tryParse(stdin.readLineSync()!);
 
-    while (num == null) {
-      print(
-          'Valor inválido. Por favor escolha um número válido de acordo com o apresentado acima');
+    while (num != 1 && num != 2 || num == null) {
+      stdout.write(
+          'Opção inválida. O sócio da empresa é Pessoa Física(1) ou Pessoa Jurídica(2)? (Informe apenas o número): ');
 
       num = int.tryParse(stdin.readLineSync()!);
     }
-
-    while (num != 1 && num != 2) {
-      stdout.write(
-          'Opção inválida. O sócio da empresa é Pessoa Física(1) ou Pessoa Jurídica(2)? (Informe apenas o número): ');
-    }
-
     return num;
   }
 
-  //VeririficaCNPJ
-  int _verificaCadastro() {
-    var cnpj = int.tryParse(stdin.readLineSync()!);
+  //Veririfica CNPJ/CPF
+  String _verificaCadastro() {
+    String? cnpj = (stdin.readLineSync()!);
 
-    while (cnpj == null) {
+    int? cnpjInt = int.tryParse(cnpj);
+
+    while (cnpjInt == null) {
       print(
-          'Valor inválido. Por favor, informe o número do CNPJ/CPF corretamente (apenas números)');
+          'Valor inválido. Por favor, informe o número do CNPJ/CPF corretamente (apenas números): ');
 
-      cnpj = int.tryParse(stdin.readLineSync()!);
+      cnpj = (stdin.readLineSync()!);
+      cnpjInt = int.tryParse(cnpj);
     }
 
-    return cnpj;
+    return cnpj.toString();
   }
 
-  //1. Cadastras
-  _cadastrar() {
+  //Veririfica CEP
+  String _verificaCEP() {
+    int? cep = int.tryParse(stdin.readLineSync()!);
+
+    while (cep == null) {
+      print(
+          'Valor inválido. Por favor, informe o número do CEP corretamente (apenas números): ');
+
+      cep = int.tryParse(stdin.readLineSync()!);
+    }
+
+    return cep.toString();
+  }
+
+  //1. Cadastrar
+  String _cadastrar() {
     //Razão Social
     stdout.write('Por favor, informe a razão social da empresa: ');
     String razaoSocial = _stringTrataErro();
@@ -122,7 +146,7 @@ class RegistroEmpresas {
 
     // CNPJ
     stdout.write('Por favor, informe o número do CNPJ(apenas número): ');
-    int cnpj = _intTrataErro();
+    String cnpj = _verificaCadastro();
 
     //Logradouro
     stdout.write('Por favor, informe o nome do logradouro: ');
@@ -149,12 +173,12 @@ class RegistroEmpresas {
     String estado = _stringTrataErro();
 
     //CEP
-    stdout.write('Por favor, informe o CEP(somente números): ');
-    int cep = _intTrataErro();
+    stdout.write('Por favor, informe o CEP (somente números): ');
+    String cep = _verificaCEP();
 
     //Telefone
-    stdout.write('Por favor, informe o telefone: ');
-    int telefone = _intTrataErro();
+    stdout.write('Por favor, informe o telefone (somente números): ');
+    String telefone = _intTrataTel();
 
     //Sócio
     socio() {
@@ -169,7 +193,7 @@ class RegistroEmpresas {
 
         //CPF
         stdout.write('Por favor, informe o CPF: ');
-        int cpf = _intTrataErro();
+        String cpf = _verificaCadastro();
 
         //Logradouro
         stdout.write('Por favor, informe o nome do logradouro: ');
@@ -196,8 +220,8 @@ class RegistroEmpresas {
         String estadoPF = _stringTrataErro();
 
         //CEP
-        stdout.write('Por favor, informe o CEP(somente números): ');
-        int cepPF = _intTrataErro();
+        stdout.write('Por favor, informe o CEP (somente números): ');
+        String cepPF = _verificaCEP();
 
         return PessoaFisica(
           nome: nome,
@@ -221,7 +245,7 @@ class RegistroEmpresas {
 
         // CNPJ
         stdout.write('Por favor, informe o número do CNPJ(apenas número): ');
-        int cnpjPJ = _intTrataErro();
+        String cnpjPJ = _verificaCadastro();
 
         //Logradouro
         stdout.write('Por favor, informe o nome do logradouro: ');
@@ -249,7 +273,7 @@ class RegistroEmpresas {
 
         //CEP
         stdout.write('Por favor, informe o CEP(somente números): ');
-        int cepPJ = _intTrataErro();
+        String cepPJ = _verificaCEP();
 
         return PessoaJuridica(
           nome: razaoSocialPJ,
@@ -282,13 +306,15 @@ class RegistroEmpresas {
     );
 
     empresas.add(empresa);
+
+    return 'Empresa ${empresa.razaoSocial} cadastrada com sucesso!';
   }
 
   //2. Busca Empresa(CNPJ)
   void _buscar() {
     stdout.write(
         'Informe o número do CNPJ da empresa para consulta (somente números): ');
-    int cnpj = _verificaCadastro();
+    final String cnpj = _verificaCadastro();
 
     final verificaCNPJ = empresas.where((empresa) => empresa.cnpj == cnpj);
 
@@ -303,23 +329,57 @@ class RegistroEmpresas {
   void _buscarSocio() {
     stdout.write(
         'Informe o número do CNPJ ou do CPF do sócio da empresa (somente números): ');
-    int numeroCadastro = _verificaCadastro();
+    final String numeroCadastro = _verificaCadastro();
 
-    final verificaCadastro =
-        empresas.where((empresa) => empresa.numeroCadastro == numeroCadastro);
+    final verificaCadastro = empresas
+        .where((empresa) => empresa.socio.numeroCadastro == numeroCadastro);
 
     if (verificaCadastro.toString() == '()') {
-      print('CNPJ não encontrado!');
+      print('CNPJ ou CPF não encontrado!');
     } else {
       print(verificaCadastro.elementAt(0).conteudo);
     }
   }
 
   //4. Lista empresas cadastradas
-  _empresasCadastradas() {
-    final listaEmpresas =
-        empresas.map((empresa) => empresa.razaoSocial).toList();
+  void _empresasCadastradas() {
+    if (empresas == []) {
+      print('Não existem empresas Registradas. Registre uma empresa primeiro.');
+    } else {
+      final empresasOrdenadas = empresas
+        .map((empresa) =>
+            'Razão Social: ${empresa.razaoSocial} - CNPJ: ${empresa.numeroCadastroFormatado}')
+        .toList()
+      ..sort();
 
-    print(listaEmpresas..sort(((a, b) => a.length.compareTo(b.length))));
+    print(empresasOrdenadas);
+    }    
+  }
+
+  //5. Excluir uma empresa (por ID)
+  void _excluirEmpresa() {
+    stdout.write('Informe o número do ID da empresa a ser excluída: ');
+
+    final String inputID = _stringTrataErro();
+
+    String nomeEmpresaRemovida = empresas
+        .where((empresa) => empresa.id == inputID)
+        .map((atributos) =>
+            '${atributos.razaoSocial} - CNPJ: ${atributos.numeroCadastroFormatado}.')
+        .toString();
+
+    String empresaID = empresas
+        .where((empresa) => empresa.id == inputID)
+        .map((empresa) => empresa.id)
+        .toString();
+
+    empresaID = empresaID.substring(1, empresaID.length - 1);
+
+    if (empresaID == inputID) {
+      empresas.removeWhere((empresa) => empresa.id == inputID);
+      print('Empresa $nomeEmpresaRemovida removida com sucesso!');
+    } else {
+      print('Empresa com ID: $inputID não encontrada');
+    }
   }
 }

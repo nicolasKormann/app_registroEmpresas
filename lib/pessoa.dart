@@ -1,13 +1,13 @@
 abstract class Pessoa {
   final String nome;
-  final int numeroCadastro;
+  final String numeroCadastro;
   final String logradouro;
   final int numero;
   final String? complemento;
   final String bairro;
   final String cidade;
   final String estado;
-  final int cep;
+  final String cep;
 
   Pessoa({
     required this.nome,
@@ -23,7 +23,10 @@ abstract class Pessoa {
 
   String get tipo => tipo;
 
-  String get endereco {
-    return '$logradouro, $numero, $bairro, $cidade/$estado, $cep';
-  }
+  String get _cepFormatado => '${cep.substring(0, 5)}-${cep.substring(5)}';
+
+  String get endereco =>
+      '$logradouro, $numero, $bairro, $cidade/$estado, $_cepFormatado';
+
+  String get numeroCadastroFormatado => numeroCadastro;
 }

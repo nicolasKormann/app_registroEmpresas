@@ -1,9 +1,7 @@
 import 'package:desafio_final/pessoa.dart';
 
 class PessoaFisica extends Pessoa {
-
-  @override
-  final String tipo = 'Pessoa Física';
+  
 
   PessoaFisica({
     required super.nome,
@@ -17,5 +15,11 @@ class PessoaFisica extends Pessoa {
     required super.cep,
   });
 
-  int get cpf => super.numeroCadastro;
+ @override
+  String get tipo => 'Pessoa Física';
+
+  @override
+  String get numeroCadastroFormatado =>
+    '${super.numeroCadastroFormatado.substring(0, 3)}.${super.numeroCadastroFormatado.substring(3, 6)}.${super.numeroCadastroFormatado.substring(6, 9)}-${super.numeroCadastroFormatado.substring(9)}';
+    
 }

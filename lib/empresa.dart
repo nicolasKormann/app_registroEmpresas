@@ -4,7 +4,7 @@ import 'package:uuid/uuid.dart';
 
 class Empresa extends PessoaJuridica {
   final _id = Uuid().v4();
-  final int telefone;
+  final String telefone;
   final _dataCadastro = DateTime.now();
   Pessoa socio;
   Map<String, Object> infos = {};
@@ -24,20 +24,26 @@ class Empresa extends PessoaJuridica {
     required this.socio,
   });
 
+  String get id => _id;
+
   DateTime get dataCadastro => _dataCadastro;
 
-  String get id => _id;
+  String get telefoneFormatado {
+    String stringTelefone = telefone.toString();
+    return '(${stringTelefone.substring(0, 2)})${stringTelefone.substring(2, 7)}-${stringTelefone.substring(7)}';
+  }
 
   String get conteudo {
     return '''
     ID: $id
-    CNPJ: $cnpj
+    Cadastro: $dataCadastro
+    CNPJ: $numeroCadastroFormatado
     Razão Social: $razaoSocial
     Nome Fantasia: $nomeFantasia
-    Telefone: $telefone
+    Telefone: $telefoneFormatado
     Endereço: $endereco
     Sócio: ${socio.tipo}
-    CPF/CNPJ: ${socio.numeroCadastro}
+    CPF/CNPJ: ${socio.numeroCadastroFormatado}
     Nome/Razão Social: ${socio.nome}
     Endereço: ${socio.endereco}
     ''';

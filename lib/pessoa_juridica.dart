@@ -3,9 +3,7 @@ import 'package:desafio_final/pessoa.dart';
 class PessoaJuridica extends Pessoa {
   final String nomeFantasia;
 
-  @override
-  final String tipo = 'Pessoa Jurídica';
-
+  
   PessoaJuridica({
     required super.nome,
     required this.nomeFantasia,
@@ -19,7 +17,14 @@ class PessoaJuridica extends Pessoa {
     required super.cep,
   });
 
-  get cnpj => super.numeroCadastro;
+  @override
+  String get tipo => 'Pessoa Jurídica';
 
-  get razaoSocial => super.nome;
+  String get razaoSocial => super.nome;
+
+  String get cnpj => super.numeroCadastro;
+
+  @override
+  String get numeroCadastroFormatado =>
+      '${super.numeroCadastroFormatado.substring(0, 2)}.${super.numeroCadastroFormatado.substring(2, 5)}.${super.numeroCadastroFormatado.substring(5, 8)}/${super.numeroCadastroFormatado.substring(8,12)}-${super.numeroCadastroFormatado.substring(12)}';
 }
