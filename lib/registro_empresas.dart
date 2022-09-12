@@ -135,7 +135,7 @@ class RegistroEmpresas {
   }
 
   //1. Cadastrar
-  String _cadastrar() {
+  void _cadastrar() {
     //Razão Social
     stdout.write('Por favor, informe a razão social da empresa: ');
     String razaoSocial = _stringTrataErro();
@@ -307,7 +307,7 @@ class RegistroEmpresas {
 
     empresas.add(empresa);
 
-    return 'Empresa ${empresa.razaoSocial} cadastrada com sucesso!';
+    print('\nEmpresa ${empresa.razaoSocial} cadastrada com sucesso!');
   }
 
   //2. Busca Empresa(CNPJ)
