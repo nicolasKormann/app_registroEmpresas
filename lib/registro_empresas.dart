@@ -347,13 +347,13 @@ class RegistroEmpresas {
       print('Não existem empresas Registradas. Registre uma empresa primeiro.');
     } else {
       final empresasOrdenadas = empresas
-        .map((empresa) =>
-            'Razão Social: ${empresa.razaoSocial} - CNPJ: ${empresa.numeroCadastroFormatado}')
-        .toList()
-      ..sort();
+          .map((empresa) =>
+              'Razão Social: ${empresa.razaoSocial} - CNPJ: ${empresa.numeroCadastroFormatado}')
+          .toList()
+        ..sort();
 
-    print(empresasOrdenadas);
-    }    
+      print(empresasOrdenadas);
+    }
   }
 
   //5. Excluir uma empresa (por ID)
@@ -370,10 +370,9 @@ class RegistroEmpresas {
 
     String empresaID = empresas
         .where((empresa) => empresa.id == inputID)
-        .map((empresa) => empresa.id)
-        .toString();
-
-    empresaID = empresaID.substring(1, empresaID.length - 1);
+        .toList()
+        .first
+        .id;
 
     if (empresaID == inputID) {
       empresas.removeWhere((empresa) => empresa.id == inputID);
