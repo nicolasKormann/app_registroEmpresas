@@ -7,7 +7,6 @@ class Empresa extends PessoaJuridica {
   final String telefone;
   final _dataCadastro = DateTime.now();
   Pessoa socio;
-  Map<String, Object> infos = {};
 
   Empresa({
     required super.nome,
