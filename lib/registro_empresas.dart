@@ -329,6 +329,7 @@ class RegistroEmpresas {
   void _buscarSocio() {
     stdout.write(
         'Informe o número do CNPJ ou do CPF do sócio da empresa (somente números): ');
+
     final String numeroCadastro = _verificaCadastro();
 
     final verificaCadastro = empresas
@@ -343,16 +344,18 @@ class RegistroEmpresas {
 
   //4. Lista empresas cadastradas
   void _empresasCadastradas() {
-    if (empresas == []) {
+    if (empresas.isEmpty) {
       print('Não existem empresas Registradas. Registre uma empresa primeiro.');
     } else {
-      final empresasOrdenadas = empresas
-          .map((empresa) =>
-              'Razão Social: ${empresa.razaoSocial} - CNPJ: ${empresa.numeroCadastroFormatado}')
-          .toList()
-        ..sort();
+      print('Lista de empresas:');
+      empresas.sort(((a, b) => a.razaoSocial.compareTo(b.razaoSocial)));
 
-      print(empresasOrdenadas);
+      var i = 1;
+      for (var empresa in empresas) {
+        print(
+            '$i. Razão Social: ${empresa.razaoSocial} - CNPJ: ${empresa.numeroCadastroFormatado}');
+        i++;
+      }
     }
   }
 
@@ -368,11 +371,8 @@ class RegistroEmpresas {
             '${atributos.razaoSocial} - CNPJ: ${atributos.numeroCadastroFormatado}.')
         .toString();
 
-    String empresaID = empresas
-        .where((empresa) => empresa.id == inputID)
-        .toList()
-        .first
-        .id;
+    String empresaID =
+        empresas.where((empresa) => empresa.id == inputID).toList().first.id;
 
     if (empresaID == inputID) {
       empresas.removeWhere((empresa) => empresa.id == inputID);
